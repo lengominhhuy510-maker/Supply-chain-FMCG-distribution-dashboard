@@ -20,6 +20,24 @@
 
 **Response:** The Power BI dashboard tracks on-time (OT), in-full (IF), and on-time-in-full (OTIF) performance by order, compares results against customer targets, and drills into order lines. The decision brief proposes a 10-working-day A/B pilot on logged orders to reconcile each handoff while keeping OT under observation, so fewer short orders do not become later orders. This repo **does not** provide a daily refresh pipeline or operational logs; the pilot is a proposal, not an implemented result.
 
+### Dashboard preview
+
+<div align="center">
+  <a href="SupplyChain_Design_Dashboard.pdf"><img src="docs/screenshots/overview.png" width="900" alt="AtliQ Mart Overview page: 29% OTIF, 65.96% line fill rate, 96.59% volume fill rate" /></a>
+  <br />
+  <sub>Overview · Select the image to open the complete three-page PDF report.</sub>
+</div>
+
+<details>
+  <summary>More views: Order Level and Line Level</summary>
+  <br />
+  <img src="docs/screenshots/order-level.png" alt="Order Level page: service rates by city, monthly trends, and late-order buckets" />
+  <br />
+  <img src="docs/screenshots/line-level.png" alt="Line Level page: line and volume fill rates, shortages by customer, and shortfall by category" />
+</details>
+
+Screenshots come from the [Power BI export](SupplyChain_Design_Dashboard.pdf). Open the [PBIX file](SupplyChain_Design_Dashboard.pbix) in Power BI Desktop to use the interactive filters.
+
 ### Analysis flow
 
 ```mermaid
@@ -102,7 +120,12 @@ These figures come from the included CSVs. They describe historical delivery out
 │   ├── dim_targets_orders.csv             # Customer OT / IF / OTIF targets
 │   ├── fact_orders_aggregate.csv          # Order-level delivery outcomes
 │   └── fact_order_lines.csv               # Ordered / delivered line quantities
+├── docs/screenshots/                      # Three dashboard screenshots exported from PDF
+│   ├── overview.png                       # KPI summary and target gaps
+│   ├── order-level.png                    # Service rates and late-order buckets
+│   └── line-level.png                     # Line and volume fill rates
 ├── SupplyChain_Design_Dashboard.pbix      # Three-page Power BI report
+├── SupplyChain_Design_Dashboard.pdf       # Three-page Power BI export
 └── atliq-service-recovery-board-proposal.pptx # Executive decision brief
 ```
 

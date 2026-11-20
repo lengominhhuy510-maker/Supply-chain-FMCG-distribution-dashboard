@@ -20,6 +20,24 @@
 
 **Hướng xử lý:** Dashboard Power BI theo dõi OT (đúng hạn), IF (đầy đủ) và OTIF (đúng hạn **và** đầy đủ) ở cấp đơn, đối chiếu chỉ tiêu khách hàng và phân tích sâu đến dòng hàng. Bản trình bày đề xuất pilot A/B 10 ngày làm việc trên nhóm đơn có log để đối soát từng mốc, đồng thời theo dõi OT nhằm tránh giảm giao thiếu bằng cách giao trễ hơn. Repo **không** chứa pipeline cập nhật hằng ngày hay log vận hành; pilot là đề xuất, chưa phải kết quả triển khai.
 
+### Xem dashboard
+
+<div align="center">
+  <a href="SupplyChain_Design_Dashboard.pdf"><img src="docs/screenshots/overview.png" width="900" alt="Trang Overview của dashboard AtliQ Mart: OTIF 29%, tỷ lệ giao đủ dòng hàng 65,96%, tỷ lệ giao đủ số lượng 96,59%" /></a>
+  <br />
+  <sub>Overview · Nhấp vào ảnh để xem toàn bộ báo cáo PDF (3 trang).</sub>
+</div>
+
+<details>
+  <summary>Xem thêm: Order Level và Line Level</summary>
+  <br />
+  <img src="docs/screenshots/order-level.png" alt="Trang Order Level: tỷ lệ giao hàng theo thành phố, xu hướng theo tháng và nhóm đơn giao trễ" />
+  <br />
+  <img src="docs/screenshots/line-level.png" alt="Trang Line Level: tỷ lệ giao đủ theo dòng và số lượng, thiếu hụt theo khách hàng và danh mục" />
+</details>
+
+Ảnh chụp từ [bản PDF xuất từ Power BI](SupplyChain_Design_Dashboard.pdf); để lọc tương tác, mở [tệp PBIX](SupplyChain_Design_Dashboard.pbix) trong Power BI Desktop.
+
 ### Luồng phân tích
 
 ```mermaid
@@ -104,7 +122,12 @@ Các con số trên tính từ CSV đi kèm; chúng mô tả dữ liệu lịch 
 │   ├── dim_targets_orders.csv             # Chỉ tiêu OT / IF / OTIF theo khách hàng
 │   ├── fact_orders_aggregate.csv          # Kết quả giao hàng cấp đơn
 │   └── fact_order_lines.csv               # Số lượng đặt / giao cấp dòng hàng
+├── docs/screenshots/                      # Ảnh chụp ba trang dashboard từ PDF
+│   ├── overview.png                       # Tổng quan KPI và khoảng cách chỉ tiêu
+│   ├── order-level.png                    # Tỷ lệ dịch vụ và nhóm đơn trễ
+│   └── line-level.png                     # Tỷ lệ giao đủ dòng / số lượng
 ├── SupplyChain_Design_Dashboard.pbix      # Dashboard Power BI, ba trang
+├── SupplyChain_Design_Dashboard.pdf       # Bản PDF xuất từ Power BI, ba trang
 └── atliq-service-recovery-board-proposal.pptx # Đề xuất cho ban điều hành
 ```
 

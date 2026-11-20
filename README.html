@@ -69,6 +69,19 @@
     @keyframes travel { 0%, 10% { transform: translate(-78px, 42px); } 50% { transform: translate(0, 0); } 90%, 100% { transform: translate(75px, 35px); } }
     .route-note { position: relative; display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding: 12px 4px 0; color: var(--muted); font: 700 11px var(--mono-face); text-transform: uppercase; letter-spacing: .07em; }
     .route-note strong { color: var(--peach); }
+    .preview { padding-bottom: 72px; }
+    .preview-heading { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 16px; margin-bottom: 22px; }
+    .preview-heading h2 { margin-bottom: 0; }
+    .preview-image { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); transition: border-color .2s, transform .2s; }
+    .preview-image:hover { border-color: var(--peach); transform: translateY(-2px); }
+    .preview-image img { display: block; width: 100%; height: auto; }
+    .preview-caption { color: var(--muted); font-size: 13px; margin-top: 12px; }
+    .preview details { margin-top: 18px; }
+    .preview summary { color: var(--peach-light); font-weight: 700; cursor: pointer; }
+    .preview-more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+    .preview-more > * { min-width: 0; margin: 0; }
+    .preview-more img { max-width: 100%; }
+    .preview-more figcaption { color: var(--muted); font-size: 13px; padding-top: 8px; }
     .section { padding-block: 72px; border-top: 1px solid var(--line); }
     .section-intro { max-width: 67ch; color: var(--muted); }
     .split { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(22px, 6vw, 80px); }
@@ -106,7 +119,7 @@
     .roadmap li.done::before { content: "✓"; }
     .footer { padding-block: 30px 50px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     .footer a { text-decoration: none; }
-    @media (max-width: 760px) { .hero, .split { grid-template-columns: minmax(0, 1fr); } .hero { padding-top: 48px; } .route { max-width: 520px; width: 100%; } .metrics { grid-template-columns: minmax(0, 1fr); } .feature-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } .section { padding-block: 56px; } .route-note { flex-wrap: wrap; } }
+    @media (max-width: 760px) { .hero, .split { grid-template-columns: minmax(0, 1fr); } .hero { padding-top: 48px; } .route { max-width: 520px; width: 100%; } .metrics { grid-template-columns: minmax(0, 1fr); } .feature-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } .preview-more { grid-template-columns: minmax(0, 1fr); } .section { padding-block: 56px; } .route-note { flex-wrap: wrap; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .route-truck { animation: none; } .button, .language button { transition: none; } }
   </style>
 </head>
@@ -143,6 +156,13 @@
         </div>
       </section>
 
+      <section class="preview section" id="dashboard-vi">
+        <div class="preview-heading"><div><p class="eyebrow">Báo cáo thực tế / Power BI</p><h2>Nhìn dashboard trước khi mở tệp.</h2></div><a class="button secondary" href="SupplyChain_Design_Dashboard.pdf">Xem toàn bộ PDF ↗</a></div>
+        <a class="preview-image" href="SupplyChain_Design_Dashboard.pdf" aria-label="Mở bản PDF ba trang của dashboard"><img src="docs/screenshots/overview.png" alt="Trang Overview: OTIF 29%, tỷ lệ dòng giao đủ 65,96% và lượng giao đủ 96,59%" loading="eager" width="1600" height="918"></a>
+        <p class="preview-caption">Overview · Bản chụp từ báo cáo, không tương tác. Mở PBIX trong Power BI Desktop để sử dụng bộ lọc.</p>
+        <details><summary>Xem thêm Order Level và Line Level</summary><div class="preview-more"><figure><a class="preview-image" href="docs/screenshots/order-level.png"><img src="docs/screenshots/order-level.png" loading="lazy" alt="Trang Order Level: tỷ lệ dịch vụ theo thành phố và các nhóm đơn trễ" width="1600" height="918"></a><figcaption>Order Level · Theo dõi khoảng cách chỉ tiêu và nhóm đơn trễ.</figcaption></figure><figure><a class="preview-image" href="docs/screenshots/line-level.png"><img src="docs/screenshots/line-level.png" loading="lazy" alt="Trang Line Level: tỷ lệ dòng, lượng giao đủ và thiếu hụt theo danh mục" width="1600" height="918"></a><figcaption>Line Level · Xem tỷ lệ giao đủ dòng hàng và số lượng.</figcaption></figure></div></details>
+      </section>
+
       <section class="section" id="metrics-vi">
         <div class="split"><div><p class="eyebrow">01 / Vấn đề · Bằng chứng</p><h2>Chất lượng giao hàng đang đe dọa kế hoạch mở rộng.</h2></div><div><p>AtliQ Mart là nhà sản xuất FMCG tại Gujarat. Một số khách hàng quan trọng không gia hạn hợp đồng do hàng thiết yếu giao trễ hoặc thiếu. Dashboard giúp nhóm phân tích theo dõi OT (đúng hạn), IF (đầy đủ) và OTIF (cả hai) ở cấp đơn hàng, rồi đi sâu vào dòng hàng để khoanh vùng vấn đề.</p><p class="note">Dữ liệu lịch sử phân tích theo ngày; repo chưa có pipeline cập nhật tự động hằng ngày hoặc log để khẳng định công đoạn nào gây thiếu hàng.</p></div></div>
         <div class="metrics"><div class="metric"><span class="value">29,02%</span><span class="label">Đơn hàng đạt OTIF</span><span class="detail">9.208 / 31.729 đơn hàng</span></div><div class="metric"><span class="value">65,91%</span><span class="label">Chỉ tiêu OTIF trung bình</span><span class="detail">Trung bình 35 khách hàng, không gia quyền</span></div><div class="metric"><span class="value">9.522</span><span class="label">Đơn đúng hạn nhưng thiếu hàng</span><span class="detail">Nhóm lớn nhất trong 22.521 đơn không đạt</span></div></div>
@@ -164,6 +184,13 @@ cd Supply-chain-FMCG-distribution-dashboard</pre></div></span></li><li><span><st
 
     <main id="top-en" data-content="en" hidden>
       <section class="hero"><div><p class="eyebrow">AtliQ Mart / Distribution phase</p><h1>On time.<br><em>In full.</em></h1><p class="lead">Track delivery service in Surat, Ahmedabad, and Vadodara. See the gap between actual performance and customer commitments before expansion.</p><div class="cta-row"><a class="button primary" href="#metrics-en">Explore the data ↓</a><a class="button secondary" href="SupplyChain_Design_Dashboard.pbix">Open the Power BI report ↗</a></div></div><div class="route" aria-label="Illustration of a delivery truck between three cities"><svg viewBox="0 0 460 285" role="img" aria-label="Delivery route through Surat, Ahmedabad, and Vadodara"><path class="route-path" d="M92 194 Q195 43 243 100 T365 186"/><circle class="route-node" cx="92" cy="194" r="7"/><circle class="route-node" cx="243" cy="100" r="7"/><circle class="route-node" cx="365" cy="186" r="7"/><text class="route-city" x="46" y="220">SURAT</text><text class="route-city" x="194" y="75">AHMEDABAD</text><text class="route-city" x="329" y="213">VADODARA</text><g class="route-truck"><rect x="207" y="125" width="45" height="25" rx="3" fill="var(--peach)"/><path d="M252 133h12l11 11v6h-23z" fill="var(--peach-light)"/><rect x="255" y="136" width="9" height="7" fill="var(--surface)"/><circle cx="219" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/><circle cx="261" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/></g><rect class="route-box" x="170" y="224" width="120" height="45" rx="7"/><text class="route-number" x="188" y="246">OT + IF</text><text class="route-caption" x="188" y="262">= OTIF</text></svg><div class="route-note"><span>Three cities · 35 customers</span><strong>Distribution / 2022</strong></div></div></section>
+
+      <section class="preview section" id="dashboard-en">
+        <div class="preview-heading"><div><p class="eyebrow">Actual report / Power BI</p><h2>See the dashboard before opening the file.</h2></div><a class="button secondary" href="SupplyChain_Design_Dashboard.pdf">Open full PDF ↗</a></div>
+        <a class="preview-image" href="SupplyChain_Design_Dashboard.pdf" aria-label="Open the complete three-page dashboard PDF"><img src="docs/screenshots/overview.png" alt="Overview page: 29% OTIF, 65.96% line fill rate, and 96.59% volume fill rate" loading="eager" width="1600" height="918"></a>
+        <p class="preview-caption">Overview · Screenshot from the report, not interactive. Open the PBIX in Power BI Desktop to use filters.</p>
+        <details><summary>Show Order Level and Line Level</summary><div class="preview-more"><figure><a class="preview-image" href="docs/screenshots/order-level.png"><img src="docs/screenshots/order-level.png" loading="lazy" alt="Order Level page: service rates by city and late-order buckets" width="1600" height="918"></a><figcaption>Order Level · Compare target gaps and delay buckets.</figcaption></figure><figure><a class="preview-image" href="docs/screenshots/line-level.png"><img src="docs/screenshots/line-level.png" loading="lazy" alt="Line Level page: line and volume fill rates and shortfalls by category" width="1600" height="918"></a><figcaption>Line Level · Inspect line and volume fill rates.</figcaption></figure></div></details>
+      </section>
 
       <section class="section" id="metrics-en"><div class="split"><div><p class="eyebrow">01 / Problem · Evidence</p><h2>Delivery quality threatens the expansion plan.</h2></div><div><p>AtliQ Mart is an FMCG manufacturer based in Gujarat. Some important customers declined annual renewals after essential products arrived late or short. The dashboard tracks on-time (OT), in-full (IF), and on-time-in-full (OTIF) delivery by order, then drills into order lines to isolate failure patterns.</p><p class="note">The historical data supports day-level analysis; this repo has no automatic daily refresh pipeline or event logs that establish which step caused a shortage.</p></div></div><div class="metrics"><div class="metric"><span class="value">29.02%</span><span class="label">Orders meeting OTIF</span><span class="detail">9,208 / 31,729 orders</span></div><div class="metric"><span class="value">65.91%</span><span class="label">Average OTIF target</span><span class="detail">Unweighted mean of 35 customer targets</span></div><div class="metric"><span class="value">9,522</span><span class="label">On-time but short orders</span><span class="detail">Largest group among 22,521 failures</span></div></div><p class="note">Lines filled in full: 65.96% (LIFR). Delivered quantity / ordered quantity: 96.59% (VOFR). These are different measures, not evidence of a root cause.</p></section>
 
