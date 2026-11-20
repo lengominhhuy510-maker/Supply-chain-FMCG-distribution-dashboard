@@ -1,7 +1,7 @@
 <div align="center">
   <img src="dashboard-mark.svg" width="176" height="84" alt="Peach delivery truck on a navy background" />
   <h1>AtliQ Mart · Distribution Service Dashboard</h1>
-  <p><strong>Track on-time, in-full delivery to pinpoint distribution bottlenecks before expansion.</strong></p>
+  <p><strong>Track on-time and complete deliveries to find problems before expanding.</strong></p>
   <p><a href="README.md">Tiếng Việt</a> · <a href="README.en.md"><strong>English</strong></a></p>
   <p>
     <img src="https://img.shields.io/badge/Build-no%20CI-0B1B30" alt="Build: no CI" />
@@ -12,20 +12,20 @@
   <p><a href="README.html">View interactive version</a> · <a href="#getting-started">Explore Docs</a> · <a href="https://github.com/lengominhhuy510-maker/Supply-chain-FMCG-distribution-dashboard/issues/new">Report Bug</a> · <a href="https://github.com/lengominhhuy510-maker/Supply-chain-FMCG-distribution-dashboard/issues/new">Request Feature</a></p>
 </div>
 
-## Problem → signal → response
+## Problem → signs → what to do
 
-**Problem:** AtliQ Mart is a growing FMCG manufacturer based in Gujarat, operating in Surat, Ahmedabad, and Vadodara. Important customers have declined annual renewals amid late or incomplete deliveries of essential products; the company needs to improve service **at the distribution stage** before expanding to more major cities.
+**Problem:** AtliQ Mart makes everyday goods in Gujarat and delivers to Surat, Ahmedabad, and Vadodara. Some key customers did not renew their contracts because essential items arrived late or in smaller amounts than ordered. Before expanding to more cities, the company needs to improve **delivery service**.
 
-**Signal to investigate, not a proven cause:** Among 22,521 orders missing OTIF, the largest group consists of 9,522 orders (42.28%) delivered on time but short. Current data does not record quantities at allocation, picking, dispatch, and receipt, so it cannot locate the shortage or assign fault to the warehouse or carrier.
+**Sign, not a proven cause:** Out of 22,521 orders that missed OTIF, 9,522 (42.28%) arrived on time but short — the largest group. The data has no quantity records for allocation, picking, dispatch, or receipt. We cannot yet say where the shortage starts or blame the warehouse or the carrier.
 
-**Response:** The Power BI dashboard tracks on-time (OT), in-full (IF), and on-time-in-full (OTIF) performance by order, compares results against customer targets, and drills into order lines. The decision brief proposes a 10-working-day A/B pilot on logged orders to reconcile each handoff while keeping OT under observation, so fewer short orders do not become later orders. This repo **does not** provide a daily refresh pipeline or operational logs; the pilot is a proposal, not an implemented result.
+**What to do:** Use the Power BI dashboard to track on-time (OT), in-full (IF), and both together (OTIF). Compare these results with customer targets, then check each order and order line. The proposal suggests a 10-working-day A/B test on orders with delivery logs, checking quantities at each step. Also watch OT: fewer short orders are not an improvement if more arrive late. **The test has not been run.** This repo has no delivery logs or daily data refresh.
 
-### Dashboard preview
+### See the dashboard
 
 <div align="center">
   <a href="SupplyChain_Design_Dashboard.pdf"><img src="docs/screenshots/overview.png" width="900" alt="AtliQ Mart Overview page: 29% OTIF, 65.96% line fill rate, 96.59% volume fill rate" /></a>
   <br />
-  <sub>Overview · Select the image to open the complete three-page PDF report.</sub>
+  <sub>Overview · Click the image to open the full three-page PDF.</sub>
 </div>
 
 <details>
@@ -36,9 +36,9 @@
   <img src="docs/screenshots/line-level.png" alt="Line Level page: line and volume fill rates, shortages by customer, and shortfall by category" />
 </details>
 
-Screenshots come from the [Power BI export](SupplyChain_Design_Dashboard.pdf). Open the [PBIX file](SupplyChain_Design_Dashboard.pbix) in Power BI Desktop to use the interactive filters.
+The images come from the [Power BI PDF](SupplyChain_Design_Dashboard.pdf). To use the filters, open the [PBIX file](SupplyChain_Design_Dashboard.pbix) in Power BI Desktop.
 
-### Analysis flow
+### How the data flows
 
 ```mermaid
 flowchart LR
@@ -57,40 +57,40 @@ flowchart LR
 
 | Metric | Result | Interpretation |
 | --- | ---: | --- |
-| Orders meeting OTIF | **9,208 / 31,729 = 29.02%** | Delivered both on time and in full. |
-| Average OTIF target | **65.91%** | Simple average of 35 customer targets; not weighted by order count. |
-| On-time but short orders | **9,522** | Largest group among 22,521 orders missing OTIF. |
-| Lines filled in full | **65.96%** | Based on order-line counts. |
-| Volume delivered | **96.59%** | Total delivered quantity / total ordered quantity; not the same as line fill rate. |
+| Orders on time and in full (OTIF) | **9,208 / 31,729 = 29.02%** | Arrived on time with the full order. |
+| Average OTIF target | **65.91%** | Simple average of 35 customer targets; each customer counts the same. |
+| On time but short | **9,522** | Largest group among 22,521 orders that missed OTIF. |
+| Lines filled in full | **65.96%** | Based on the number of order lines. |
+| Volume delivered | **96.59%** | Delivered quantity / ordered quantity. This is not the line fill rate. |
 
-These figures come from the included CSVs. They describe historical delivery outcomes, not the root cause of shortages.
+These numbers come from the CSV files in this repo. They show past delivery results, **not the cause** of shortages.
 
-## Key capabilities
+## What the report shows
 
-### Monitor service levels
+### Track deliveries
 
-- **Measure OT, IF, and OTIF:** Aggregate outcomes across 31,729 orders to separate late, short, and combined delivery failures.
-- **Compare customer targets:** Contrast actual OT, IF, and OTIF rates with targets for 35 customers to prioritize service gaps.
-- **Filter dates, cities, and customers:** Narrow the report pages to the segments that need attention.
+- **See OT, IF, and OTIF:** Of 31,729 orders, how many were late, short, or both?
+- **Compare with targets:** Find the biggest gaps between actual results and OT, IF, and OTIF targets for 35 customers.
+- **Filter the data:** Choose a date, city, or customer to focus on a smaller group.
 
-### Isolate failure patterns
+### Find groups to check
 
-- **Classify order-level failures:** Distinguish late-only (7,539), short-only (9,522), and late-and-short (5,460) orders; these are mutually exclusive groups among 22,521 orders missing OTIF.
-- **Analyze order-line fill:** Compare line item fill rate (LIFR) with volume order fill rate (VOFR), then filter by product and category to expose shortages masked by aggregate volume.
-- **Inspect delivery timing:** Review order-to-delivery timing and delay buckets to assess the extent of late deliveries.
+- **Split problem orders:** 7,539 were only late, 9,522 were only short, and 5,460 were both. Each order appears in one group.
+- **Look at order lines:** Compare the line fill rate (LIFR) with the volume fill rate (VOFR), then filter by product or category.
+- **Check delays:** See the time from order to delivery and how many days orders were late.
 
-## Tech stack
+## Tools
 
-| Component | Why it is used |
+| Tool | What it does |
 | --- | --- |
-| Power BI Desktop (`.pbix`) | Hosts the model and three interactive report pages: Overview, Order Level, Line Level. |
-| CSV (`Dataset/`) | Supplies four dimensions, an order-level fact table, and an order-line fact table. |
-| PowerPoint (`.pptx`) | Presents the service problem, evidence, and a proposed pilot to investigate shortages. |
-| Mermaid | Renders the data flow directly in GitHub Markdown. |
+| Power BI Desktop (`.pbix`) | Opens the three interactive pages: Overview, Order Level, and Line Level. |
+| CSV (`Dataset/`) | Stores four reference tables plus order and order-line data. |
+| PowerPoint (`.pptx`) | Presents the problem, the data, and a proposed test. |
+| Mermaid | Draws the data flow in the GitHub README. |
 
 ## Getting started
 
-**Prerequisite:** Install a Power BI Desktop version that can open the `.pbix` file. No `package.json`, `requirements.txt`, or pinned Power BI version exists in this repo. Use software that supports `.pptx` to view the decision brief.
+**Prerequisite:** Install a Power BI Desktop version that opens the PBIX. No version is pinned in this repo. Use any app that opens PPTX files for the proposal.
 
 1. **Clone the repository:**
 
@@ -99,11 +99,11 @@ These figures come from the included CSVs. They describe historical delivery out
    cd Supply-chain-FMCG-distribution-dashboard
    ```
 
-2. **Open the report:** Open `SupplyChain_Design_Dashboard.pbix` in Power BI Desktop. The file contains Overview, Order Level, and Line Level pages.
-3. **Explore the data:** Filter by city, customer, and date; the Line Level page also exposes product and category filters. Inspect `Dataset/` to trace the CSV inputs. If a refresh prompts for a source location, point it to the corresponding files in this directory.
-4. **Read the decision brief:** Open `atliq-service-recovery-board-proposal.pptx` for the shortage analysis and proposed quantity-reconciliation pilot.
+2. **Open the report:** Open `SupplyChain_Design_Dashboard.pbix` in Power BI Desktop. Check the Overview, Order Level, and Line Level pages.
+3. **Filter the data:** Choose a city, customer, or date. On Line Level, you can also filter by product or category. The original CSV files are in `Dataset/`. If Power BI asks for file paths when you refresh, select the matching CSV files there.
+4. **Read the proposal:** Open `atliq-service-recovery-board-proposal.pptx` to see the suggested test for short deliveries.
 
-> You can open the saved PBIX report directly; **refreshing** it may require updating local CSV source paths. This repo has no build command or server to run.
+> No build command or server is needed.
 
 ## Project structure
 
@@ -131,7 +131,7 @@ These figures come from the included CSVs. They describe historical delivery out
 
 ## Usage examples
 
-**Calculate OTIF from the order data** with Python 3 (standard library; this example is not a pipeline included in the repo):
+**Calculate OTIF from the CSV** with Python 3 (standard library only; this is an example, not a pipeline in the repo):
 
 ```bash
 python -c "import csv; r=list(csv.DictReader(open('Dataset/fact_orders_aggregate.csv', encoding='utf-8-sig', newline=''))); ok=sum(int(x['otif']) for x in r); print(f'{ok:,} / {len(r):,} = {ok/len(r):.2%} OTIF')"
@@ -143,15 +143,15 @@ Expected output for the current dataset:
 9,208 / 31,729 = 29.02% OTIF
 ```
 
-**Investigate in the report:** Open `Order Level` → filter by city / customer / date → compare OT, IF, and OTIF against targets → open `Line Level` to inspect LIFR, VOFR, and affected products. Use Overview for the initial service-level picture.
+**Explore the report:** Open `Order Level` → filter by city, customer, or date → compare OT, IF, and OTIF with targets → go to `Line Level` to see which lines and products are short. Start with Overview for the big picture.
 
-## Roadmap & contributing
+## Next steps & contributions
 
-- [x] Build three report views: overview, order level, and line level.
-- [x] Include six source CSVs and the executive decision brief.
-- [ ] Establish scheduled data updates and source-quality checks.
-- [ ] Log quantities at allocation → picking → dispatch → receipt to test where shortages arise.
+- [x] Build three report pages: Overview, Order Level, and Line Level.
+- [x] Add six CSV tables and the proposal to the repo.
+- [ ] Set up regular data updates and checks for data quality.
+- [ ] Record quantities at allocation → picking → dispatch → receipt to find where shortages begin.
 
-**Contribute:** Open an issue with reproduction steps and expected behavior. For model changes, submit a pull request describing the data source and metric impact. Do not post real customer data or sensitive information in issues.
+**Contribute:** Open an issue with the problem, steps to see it, and what you expected. For model changes, send a pull request with the data source and any effect on the metrics. Do not share real customer data or sensitive details in issues.
 
-**License:** No `LICENSE` file is present; do not assume the code or data is licensed for reuse.
+**License:** This repo has no `LICENSE` file. Do not assume you can reuse its code or data.
