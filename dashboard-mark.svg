@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="84" viewBox="0 0 176 84" role="img" aria-labelledby="title desc">
+  <title id="title">Distribution service dashboard mark</title>
+  <desc id="desc">Peach delivery truck travelling along a route between three locations</desc>
+  <rect width="176" height="84" rx="18" fill="#0B1B30"/>
+  <path d="M16 59H58M102 59h58" fill="none" stroke="#29435B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 41h38l12 11h24v13H20z" fill="#F4A58A"/>
+  <path d="M30 43v9h16l8-9z" fill="#0B1B30" opacity=".6"/>
+  <circle cx="38" cy="66" r="5" fill="#0B1B30" stroke="#F4A58A" stroke-width="2"/>
+  <circle cx="78" cy="66" r="5" fill="#0B1B30" stroke="#F4A58A" stroke-width="2"/>
+  <circle cx="137" cy="28" r="8" fill="#F4A58A"/>
+  <circle cx="137" cy="28" r="3" fill="#0B1B30"/>
+  <path d="M118 48h38" fill="none" stroke="#29435B" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bilingual documentation for the AtliQ Mart distribution service dashboard.">
+  <title>AtliQ Distribution Dashboard</title>
+  <style>
+    /* A distribution dispatch board: navy canvas, peach route, restrained data panels. */
+    :root {
+      --bg: #0b1b30;
+      --surface: #10243b;
+      --surface-raised: #19334e;
+      --line: #29435b;
+      --text: #f4f7fa;
+      --muted: #b8cbdb;
+      --peach: #f4a58a;
+      --peach-light: #ffd3bd;
+      --body-face: "Segoe UI", Arial, sans-serif;
+      --display-face: "Trebuchet MS", "Segoe UI", sans-serif;
+      --mono-face: Consolas, "Courier New", monospace;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--bg); color: var(--text); font: 16px/1.65 var(--body-face); }
+    a { color: var(--peach-light); text-underline-offset: 4px; }
+    a:hover { color: var(--text); }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 2px solid var(--peach); outline-offset: 4px; }
+    [hidden] { display: none !important; }
+    .frame { width: min(1120px, 100%); margin-inline: auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding-block: 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .brand { color: var(--text); text-decoration: none; font: 800 16px/1.2 var(--display-face); letter-spacing: .06em; text-transform: uppercase; }
+    .brand span { color: var(--peach); }
+    .top-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; }
+    .top-actions > a { font-size: 13px; font-weight: 700; text-decoration: none; }
+    .language { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+    .language button { min-width: 78px; border: 0; border-radius: 999px; padding: 7px 12px; background: transparent; color: var(--muted); font: 700 12px var(--body-face); cursor: pointer; transition: background .2s, color .2s; }
+    .language button[aria-pressed="true"] { background: var(--peach); color: var(--bg); }
+    .language button:hover:not([aria-pressed="true"]) { color: var(--text); background: var(--surface-raised); }
+    .eyebrow { color: var(--peach); text-transform: uppercase; letter-spacing: .18em; font: 800 11px/1.5 var(--body-face); }
+    .hero { display: grid; grid-template-columns: 1.07fr .93fr; align-items: center; gap: clamp(28px, 5vw, 72px); padding-block: clamp(55px, 8vw, 104px) 68px; }
+    .hero > *, .split > * { min-width: 0; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--display-face); text-wrap: balance; line-height: 1.16; }
+    h1 { font-size: clamp(40px, 5.5vw, 72px); letter-spacing: -.048em; margin-block: 20px; }
+    h1 em { color: var(--peach); font-style: normal; }
+    h2 { font-size: clamp(28px, 3.5vw, 43px); letter-spacing: -.035em; margin-block: 10px 21px; }
+    h3 { font-size: 20px; letter-spacing: -.01em; margin-bottom: 10px; }
+    .lead { max-width: 56ch; color: var(--muted); font-size: clamp(16px, 1.8vw, 19px); }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 800; text-decoration: none; transition: transform .2s, background .2s, border-color .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--peach); color: var(--bg); }
+    .button.primary:hover { background: var(--peach-light); color: var(--bg); }
+    .button.secondary { border: 1px solid var(--line); color: var(--text); }
+    .button.secondary:hover { border-color: var(--peach); }
+    .route { position: relative; border: 1px solid var(--line); border-radius: 18px; background: radial-gradient(ellipse at 70% 22%, var(--surface-raised), var(--surface) 70%); padding: 18px; overflow: hidden; }
+    .route::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 36px 36px; opacity: .22; pointer-events: none; }
+    .route svg { position: relative; display: block; width: 100%; height: auto; overflow: visible; }
+    .route-path { fill: none; stroke: var(--peach); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 6 9; opacity: .8; }
+    .route-truck { transform-origin: center; animation: travel 7s ease-in-out infinite alternate; }
+    .route-node { fill: var(--peach); }
+    .route-city { fill: var(--muted); font: 700 12px var(--body-face); }
+    .route-box { fill: var(--surface-raised); stroke: var(--line); }
+    .route-number { fill: var(--text); font: 800 20px var(--display-face); }
+    .route-caption { fill: var(--muted); font: 11px var(--body-face); }
+    @keyframes travel { 0%, 10% { transform: translate(-78px, 42px); } 50% { transform: translate(0, 0); } 90%, 100% { transform: translate(75px, 35px); } }
+    .route-note { position: relative; display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding: 12px 4px 0; color: var(--muted); font: 700 11px var(--mono-face); text-transform: uppercase; letter-spacing: .07em; }
+    .route-note strong { color: var(--peach); }
+    .section { padding-block: 72px; border-top: 1px solid var(--line); }
+    .section-intro { max-width: 67ch; color: var(--muted); }
+    .split { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(22px, 6vw, 80px); }
+    .split p + p, .note + p { margin-top: 16px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 32px; }
+    .metric { border: 1px solid var(--line); border-radius: 12px; padding: 22px; background: var(--surface); }
+    .metric .value { display: block; font: 800 clamp(27px, 3.5vw, 43px)/1.05 var(--display-face); font-variant-numeric: tabular-nums; letter-spacing: -.035em; color: var(--peach); }
+    .metric .label { display: block; margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .metric .detail { display: block; margin-top: 9px; color: var(--text); font-size: 12px; }
+    .note { margin-top: 18px; color: var(--muted); font-size: 13px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 40px; margin-top: 30px; }
+    .feature { padding-block: 16px; border-top: 1px solid var(--line); }
+    .feature h3 { font-size: 17px; }
+    .feature p { color: var(--muted); font-size: 14px; max-width: 58ch; }
+    .steps { display: grid; gap: 0; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: steps; }
+    .steps li { counter-increment: steps; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: start; padding-block: 14px; border-top: 1px solid var(--line); color: var(--muted); }
+    .steps li > span { min-width: 0; overflow-wrap: anywhere; }
+    .steps li::before { content: counter(steps, decimal-leading-zero); color: var(--peach); font: 700 12px/1.9 var(--mono-face); }
+    .steps strong, .feature strong { color: var(--text); }
+    .table-wrap, .code-wrap { overflow-x: auto; max-width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
+    th, td { padding: 14px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--peach); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+    td { color: var(--muted); }
+    td:first-child { color: var(--text); font-weight: 700; }
+    pre { max-width: 100%; margin: 16px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 20px; color: var(--peach-light); font: 13px/1.65 var(--mono-face); overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+    code { font-family: var(--mono-face); font-size: .88em; }
+    p code, li code { color: var(--peach-light); }
+    .timeline { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
+    .timeline span { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-size: 12px; font-weight: 700; }
+    .timeline b { color: var(--peach); font-size: 14px; }
+    .roadmap { padding: 0; list-style: none; margin: 22px 0 0; }
+    .roadmap li { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+    .roadmap li::before { content: "○"; margin-right: 12px; color: var(--peach); }
+    .roadmap li.done::before { content: "✓"; }
+    .footer { padding-block: 30px 50px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .footer a { text-decoration: none; }
+    @media (max-width: 760px) { .hero, .split { grid-template-columns: minmax(0, 1fr); } .hero { padding-top: 48px; } .route { max-width: 520px; width: 100%; } .metrics { grid-template-columns: minmax(0, 1fr); } .feature-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } .section { padding-block: 56px; } .route-note { flex-wrap: wrap; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .route-truck { animation: none; } .button, .language button { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header class="topbar">
+      <a class="brand" href="#top">ATLIQ <span> / </span> DISTRIBUTION</a>
+      <div class="top-actions">
+        <a href="README.md" id="markdown-link">README Markdown ↗</a>
+        <div class="language" role="group" aria-label="Language / Ngôn ngữ">
+          <button type="button" data-switch="vi" aria-pressed="true">Tiếng Việt</button>
+          <button type="button" data-switch="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top" data-content="vi">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">AtliQ Mart / Giai đoạn phân phối</p>
+          <h1>Giao đúng hạn.<br>Giao <em>đủ hàng.</em></h1>
+          <p class="lead">Theo dõi chất lượng giao hàng ở Surat, Ahmedabad và Vadodara. Nhìn rõ khoảng cách giữa kết quả thực tế và cam kết với khách hàng trước khi mở rộng.</p>
+          <div class="cta-row"><a class="button primary" href="#metrics-vi">Xem số liệu ↓</a><a class="button secondary" href="SupplyChain_Design_Dashboard.pbix">Mở báo cáo Power BI ↗</a></div>
+        </div>
+        <div class="route" aria-label="Minh họa xe tải đi qua ba thành phố">
+          <svg viewBox="0 0 460 285" role="img" aria-label="Tuyến giao hàng giữa Surat, Ahmedabad và Vadodara">
+            <path class="route-path" d="M92 194 Q195 43 243 100 T365 186"/>
+            <circle class="route-node" cx="92" cy="194" r="7"/><circle class="route-node" cx="243" cy="100" r="7"/><circle class="route-node" cx="365" cy="186" r="7"/>
+            <text class="route-city" x="46" y="220">SURAT</text><text class="route-city" x="194" y="75">AHMEDABAD</text><text class="route-city" x="329" y="213">VADODARA</text>
+            <g class="route-truck"><rect x="207" y="125" width="45" height="25" rx="3" fill="var(--peach)"/><path d="M252 133h12l11 11v6h-23z" fill="var(--peach-light)"/><rect x="255" y="136" width="9" height="7" fill="var(--surface)"/><circle cx="219" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/><circle cx="261" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/></g>
+            <rect class="route-box" x="170" y="224" width="120" height="45" rx="7"/><text class="route-number" x="188" y="246">OT + IF</text><text class="route-caption" x="188" y="262">= OTIF</text>
+          </svg>
+          <div class="route-note"><span>Ba thành phố · 35 khách hàng</span><strong>Distribution / 2022</strong></div>
+        </div>
+      </section>
+
+      <section class="section" id="metrics-vi">
+        <div class="split"><div><p class="eyebrow">01 / Vấn đề · Bằng chứng</p><h2>Chất lượng giao hàng đang đe dọa kế hoạch mở rộng.</h2></div><div><p>AtliQ Mart là nhà sản xuất FMCG tại Gujarat. Một số khách hàng quan trọng không gia hạn hợp đồng do hàng thiết yếu giao trễ hoặc thiếu. Dashboard giúp nhóm phân tích theo dõi OT (đúng hạn), IF (đầy đủ) và OTIF (cả hai) ở cấp đơn hàng, rồi đi sâu vào dòng hàng để khoanh vùng vấn đề.</p><p class="note">Dữ liệu lịch sử phân tích theo ngày; repo chưa có pipeline cập nhật tự động hằng ngày hoặc log để khẳng định công đoạn nào gây thiếu hàng.</p></div></div>
+        <div class="metrics"><div class="metric"><span class="value">29,02%</span><span class="label">Đơn hàng đạt OTIF</span><span class="detail">9.208 / 31.729 đơn hàng</span></div><div class="metric"><span class="value">65,91%</span><span class="label">Chỉ tiêu OTIF trung bình</span><span class="detail">Trung bình 35 khách hàng, không gia quyền</span></div><div class="metric"><span class="value">9.522</span><span class="label">Đơn đúng hạn nhưng thiếu hàng</span><span class="detail">Nhóm lớn nhất trong 22.521 đơn không đạt</span></div></div>
+        <p class="note">Dòng hàng giao đủ: 65,96% (LIFR). Tổng lượng giao / tổng lượng đặt: 96,59% (VOFR). Đây là hai cách đo khác nhau, không phải kết luận nguyên nhân.</p>
+      </section>
+
+      <section class="section" id="features-vi"><div class="split"><div><p class="eyebrow">02 / Nguyên nhân cần kiểm chứng</p><h2>Dấu hiệu lớn nhất là giao đúng hạn nhưng thiếu hàng.</h2><p>Trong 22.521 đơn không đạt OTIF, 9.522 đơn (42,28%) giao đúng hạn nhưng thiếu. Đây là nhóm cần điều tra trước; dữ liệu hiện tại chưa cho biết thiếu hàng phát sinh khi phân bổ, soạn hàng, vận chuyển hay khi nhận hàng.</p><p class="note">Giao trễ vẫn chiếm 7.539 đơn (33,48%); 5.460 đơn (24,24%) vừa trễ vừa thiếu. Mỗi đơn chỉ thuộc một nhóm.</p></div><div><div class="feature-grid" style="margin-top:0"><div class="feature"><h3>Loại trừ kết luận vội</h3><p>Tỷ lệ dòng giao đủ 65,96% nhưng lượng giao đạt 96,59%. Số lượng tổng có thể che bớt thiếu hụt ở từng dòng.</p></div><div class="feature"><h3>Thu hẹp phạm vi</h3><p>Dùng bộ lọc ngày, thành phố, khách hàng, sản phẩm để xác định nhóm đơn và mặt hàng có thiếu hụt lặp lại.</p></div><div class="feature"><h3>Cần thêm bằng chứng</h3><p>Chưa có log tại các mốc phân bổ → soạn hàng → xuất kho → nhận hàng, nên chưa thể quy lỗi cho kho hay đơn vị vận chuyển.</p></div><div class="feature"><h3>Đo cả rủi ro đổi lỗi</h3><p>Song song, theo dõi OT để tránh đổi lỗi: giảm đơn giao thiếu mà tăng giao trễ không phải là cải thiện dịch vụ.</p></div></div></div></div><div class="timeline"><span>Phân bổ</span><b>→</b><span>Soạn hàng</span><b>→</b><span>Xuất kho</span><b>→</b><span>Nhận hàng</span><b>→</b><span>Có log mới kết luận</span></div></section>
+
+      <section class="section" id="features2-vi"><p class="eyebrow">03 / Giải pháp phân tích</p><h2>Từ dữ liệu sẵn có đến kiểm chứng thực địa.</h2><p class="section-intro">Dashboard Power BI chuyển dữ liệu giao hàng thành các tầng nhìn: tổng quan để phát hiện, cấp đơn để phân loại, cấp dòng hàng để khoanh vùng. Những tầng này chuẩn bị cho một pilot có điều kiện, không thay thế việc ghi log thực tế.</p><div class="feature-grid"><div class="feature"><h3>Phát hiện</h3><p>Overview đo OT, IF, OTIF và khoảng cách với chỉ tiêu của 35 khách hàng.</p></div><div class="feature"><h3>Phân loại</h3><p>Order Level tách đơn trễ, thiếu và lỗi kết hợp; xem thêm nhóm ngày trễ.</p></div><div class="feature"><h3>Khoanh vùng</h3><p>Line Level đặt LIFR cạnh VOFR, so sánh số lượng đặt/giao và lọc theo sản phẩm, danh mục.</p></div><div class="feature"><h3>Kiểm chứng</h3><p>Pilot A/B 10 ngày làm việc trên nhóm đơn có log; đối soát số lượng tại từng mốc trước khi xuất kho.</p></div></div><div class="timeline"><span>Vấn đề: OTIF 29,02%</span><b>→</b><span>Dấu hiệu: 9.522 đơn thiếu</span><b>→</b><span>Giải pháp: dashboard + pilot có log</span></div></section>
+
+      <section class="section" id="start-vi"><div class="split"><div><p class="eyebrow">04 / Bắt đầu</p><h2>Mở báo cáo, không cần build.</h2><p class="section-intro">Dùng Power BI Desktop tương thích với tệp PBIX; phiên bản không được khóa trong repo. Dùng phần mềm hỗ trợ PPTX để xem bản đề xuất.</p></div><div><ol class="steps"><li><span><strong>Sao chép repo.</strong><div class="code-wrap"><pre>git clone https://github.com/lengominhhuy510-maker/Supply-chain-FMCG-distribution-dashboard.git
+cd Supply-chain-FMCG-distribution-dashboard</pre></div></span></li><li><span><strong>Mở <code>SupplyChain_Design_Dashboard.pbix</code></strong> trong Power BI Desktop; xem Overview, Order Level và Line Level.</span></li><li><span><strong>Lọc thành phố, khách hàng và ngày</strong>; đối chiếu bảng CSV trong <code>Dataset/</code>. Nếu Refresh yêu cầu đường dẫn, trỏ về CSV tương ứng trong thư mục này.</span></li><li><span><strong>Đọc <code>atliq-service-recovery-board-proposal.pptx</code></strong> để xem đề xuất pilot đối soát số lượng.</span></li></ol></div></div></section>
+
+      <section class="section" id="files-vi"><p class="eyebrow">05 / Trong repo</p><h2>Nguồn dữ liệu & đầu ra.</h2><div class="table-wrap"><table><thead><tr><th>Thành phần</th><th>Vai trò</th></tr></thead><tbody><tr><td>Dataset/</td><td>4 bảng chiều (khách hàng, ngày, sản phẩm, chỉ tiêu), 2 bảng sự kiện (đơn, dòng hàng).</td></tr><tr><td>SupplyChain_Design_Dashboard.pbix</td><td>Báo cáo Power BI ba trang, lọc và so sánh chỉ tiêu dịch vụ.</td></tr><tr><td>atliq-service-recovery-board-proposal.pptx</td><td>Tóm tắt bằng chứng và đề xuất pilot; không khẳng định nguyên nhân thiếu hàng.</td></tr><tr><td>README.md / README.en.md</td><td>Tài liệu Markdown tiếng Việt và tiếng Anh để đọc trên GitHub.</td></tr></tbody></table></div><p class="note">Thử nhanh dữ liệu nguồn bằng Python 3 (thư viện chuẩn):</p><pre>python -c "import csv; r=list(csv.DictReader(open('Dataset/fact_orders_aggregate.csv', encoding='utf-8-sig', newline=''))); ok=sum(int(x['otif']) for x in r); print(f'{ok:,} / {len(r):,} = {ok/len(r):.2%} OTIF')"
+# 9,208 / 31,729 = 29.02% OTIF</pre></section>
+
+      <section class="section"><div class="split"><div><p class="eyebrow">06 / Tiếp theo</p><h2>Đo đúng trước khi can thiệp.</h2></div><div><ul class="roadmap"><li class="done">Dashboard ba trang và sáu bảng dữ liệu nguồn.</li><li class="done">Đề xuất kiểm tra giao thiếu trước khi mở rộng.</li><li>Thiết lập cập nhật dữ liệu định kỳ và kiểm tra chất lượng.</li><li>Ghi log số lượng qua phân bổ → soạn hàng → xuất kho → nhận hàng để kiểm chứng nguyên nhân.</li></ul><p class="note">Đóng góp qua issue / pull request kèm bước tái hiện và ảnh hưởng đến chỉ số. Repo chưa có tệp LICENSE; không mặc định dữ liệu được cấp phép dùng lại.</p></div></div></section>
+    </main>
+
+    <main id="top-en" data-content="en" hidden>
+      <section class="hero"><div><p class="eyebrow">AtliQ Mart / Distribution phase</p><h1>On time.<br><em>In full.</em></h1><p class="lead">Track delivery service in Surat, Ahmedabad, and Vadodara. See the gap between actual performance and customer commitments before expansion.</p><div class="cta-row"><a class="button primary" href="#metrics-en">Explore the data ↓</a><a class="button secondary" href="SupplyChain_Design_Dashboard.pbix">Open the Power BI report ↗</a></div></div><div class="route" aria-label="Illustration of a delivery truck between three cities"><svg viewBox="0 0 460 285" role="img" aria-label="Delivery route through Surat, Ahmedabad, and Vadodara"><path class="route-path" d="M92 194 Q195 43 243 100 T365 186"/><circle class="route-node" cx="92" cy="194" r="7"/><circle class="route-node" cx="243" cy="100" r="7"/><circle class="route-node" cx="365" cy="186" r="7"/><text class="route-city" x="46" y="220">SURAT</text><text class="route-city" x="194" y="75">AHMEDABAD</text><text class="route-city" x="329" y="213">VADODARA</text><g class="route-truck"><rect x="207" y="125" width="45" height="25" rx="3" fill="var(--peach)"/><path d="M252 133h12l11 11v6h-23z" fill="var(--peach-light)"/><rect x="255" y="136" width="9" height="7" fill="var(--surface)"/><circle cx="219" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/><circle cx="261" cy="152" r="5" fill="var(--bg)" stroke="var(--peach-light)" stroke-width="2"/></g><rect class="route-box" x="170" y="224" width="120" height="45" rx="7"/><text class="route-number" x="188" y="246">OT + IF</text><text class="route-caption" x="188" y="262">= OTIF</text></svg><div class="route-note"><span>Three cities · 35 customers</span><strong>Distribution / 2022</strong></div></div></section>
+
+      <section class="section" id="metrics-en"><div class="split"><div><p class="eyebrow">01 / Problem · Evidence</p><h2>Delivery quality threatens the expansion plan.</h2></div><div><p>AtliQ Mart is an FMCG manufacturer based in Gujarat. Some important customers declined annual renewals after essential products arrived late or short. The dashboard tracks on-time (OT), in-full (IF), and on-time-in-full (OTIF) delivery by order, then drills into order lines to isolate failure patterns.</p><p class="note">The historical data supports day-level analysis; this repo has no automatic daily refresh pipeline or event logs that establish which step caused a shortage.</p></div></div><div class="metrics"><div class="metric"><span class="value">29.02%</span><span class="label">Orders meeting OTIF</span><span class="detail">9,208 / 31,729 orders</span></div><div class="metric"><span class="value">65.91%</span><span class="label">Average OTIF target</span><span class="detail">Unweighted mean of 35 customer targets</span></div><div class="metric"><span class="value">9,522</span><span class="label">On-time but short orders</span><span class="detail">Largest group among 22,521 failures</span></div></div><p class="note">Lines filled in full: 65.96% (LIFR). Delivered quantity / ordered quantity: 96.59% (VOFR). These are different measures, not evidence of a root cause.</p></section>
+
+      <section class="section" id="features-en"><div class="split"><div><p class="eyebrow">02 / Cause to test</p><h2>On-time but short deliveries are the largest failure pattern.</h2><p>Among 22,521 orders missing OTIF, 9,522 (42.28%) arrived on time but short. This group is the first investigation priority. Existing data cannot locate the shortage at allocation, picking, transport, or receipt.</p><p class="note">Late-only accounts for 7,539 orders (33.48%); another 5,460 (24.24%) were both late and short. These groups are mutually exclusive.</p></div><div><div class="feature-grid" style="margin-top:0"><div class="feature"><h3>Avoid premature attribution</h3><p>Only 65.96% of lines are filled in full while delivered volume reaches 96.59%. Aggregate volume can mask short individual lines.</p></div><div class="feature"><h3>Narrow the scope</h3><p>Filter by date, city, customer, and product to find recurring shortage segments.</p></div><div class="feature"><h3>Collect missing evidence</h3><p>Without logs at allocation → picking → dispatch → receipt, neither the warehouse nor the carrier can be assigned fault.</p></div><div class="feature"><h3>Watch for displaced failures</h3><p>Track OT alongside shortages. Fewer short orders with more late deliveries is not a service improvement.</p></div></div></div></div><div class="timeline"><span>Allocation</span><b>→</b><span>Picking</span><b>→</b><span>Dispatch</span><b>→</b><span>Receipt</span><b>→</b><span>Conclude only with logs</span></div></section>
+
+      <section class="section" id="features2-en"><p class="eyebrow">03 / Analysis and response</p><h2>Move from existing data to a controlled test.</h2><p class="section-intro">The Power BI dashboard turns delivery data into three levels of analysis: overview for detection, order level for classification, and line level for isolation. These views inform a conditional pilot; they do not replace operational logs.</p><div class="feature-grid"><div class="feature"><h3>Detect</h3><p>Overview measures OT, IF, OTIF, and gaps against targets for 35 customers.</p></div><div class="feature"><h3>Classify</h3><p>Order Level separates late, short, and combined failures and shows delay buckets.</p></div><div class="feature"><h3>Isolate</h3><p>Line Level compares LIFR with VOFR and ordered with delivered quantities by product and category.</p></div><div class="feature"><h3>Validate</h3><p>Run a proposed 10-working-day A/B pilot on logged orders, reconciling quantities at each step before dispatch.</p></div></div><div class="timeline"><span>Problem: OTIF 29.02%</span><b>→</b><span>Signal: 9,522 short orders</span><b>→</b><span>Response: dashboard + logged pilot</span></div></section>
+
+      <section class="section" id="start-en"><div class="split"><div><p class="eyebrow">04 / Getting started</p><h2>Open the report. No build needed.</h2><p class="section-intro">Use a Power BI Desktop version compatible with the PBIX; this repo does not pin a version. Use a PPTX viewer for the decision brief.</p></div><div><ol class="steps"><li><span><strong>Clone the repo.</strong><div class="code-wrap"><pre>git clone https://github.com/lengominhhuy510-maker/Supply-chain-FMCG-distribution-dashboard.git
+cd Supply-chain-FMCG-distribution-dashboard</pre></div></span></li><li><span><strong>Open <code>SupplyChain_Design_Dashboard.pbix</code></strong> in Power BI Desktop; visit Overview, Order Level, and Line Level.</span></li><li><span><strong>Filter city, customer, and date</strong>; inspect the source CSVs in <code>Dataset/</code>. If Refresh requests a source path, select the corresponding CSVs in that directory.</span></li><li><span><strong>Read <code>atliq-service-recovery-board-proposal.pptx</code></strong> for the proposed quantity-reconciliation pilot.</span></li></ol></div></div></section>
+
+      <section class="section" id="files-en"><p class="eyebrow">05 / Repository</p><h2>Inputs and deliverables.</h2><div class="table-wrap"><table><thead><tr><th>Component</th><th>Role</th></tr></thead><tbody><tr><td>Dataset/</td><td>Four dimensions (customers, dates, products, targets) and two fact tables (orders, order lines).</td></tr><tr><td>SupplyChain_Design_Dashboard.pbix</td><td>Three-page Power BI report with service filters and target comparisons.</td></tr><tr><td>atliq-service-recovery-board-proposal.pptx</td><td>Evidence and pilot proposal; it does not establish the cause of shortages.</td></tr><tr><td>README.md / README.en.md</td><td>Vietnamese and English Markdown documentation for GitHub.</td></tr></tbody></table></div><p class="note">Check the source data with Python 3 (standard library):</p><pre>python -c "import csv; r=list(csv.DictReader(open('Dataset/fact_orders_aggregate.csv', encoding='utf-8-sig', newline=''))); ok=sum(int(x['otif']) for x in r); print(f'{ok:,} / {len(r):,} = {ok/len(r):.2%} OTIF')"
+# 9,208 / 31,729 = 29.02% OTIF</pre></section>
+
+      <section class="section"><div class="split"><div><p class="eyebrow">06 / Next steps</p><h2>Measure first. Intervene second.</h2></div><div><ul class="roadmap"><li class="done">Build three report pages and include six source tables.</li><li class="done">Propose a pilot to investigate short deliveries before expansion.</li><li>Establish scheduled refresh and source-quality checks.</li><li>Log quantities at allocation → picking → dispatch → receipt to test where shortages arise.</li></ul><p class="note">Contribute via an issue or pull request with reproduction steps and metric impact. No LICENSE file exists; do not assume reuse rights for the code or data.</p></div></div></section>
+    </main>
+
+    <footer class="footer"><span>ATLIQ / DISTRIBUTION SERVICE · POWER BI + CSV</span><a href="#top" id="back-to-top">Lên đầu ↑</a></footer>
+  </div>
+  <script>
+    const views = document.querySelectorAll('[data-content]');
+    const buttons = document.querySelectorAll('[data-switch]');
+    function setLanguage(language) {
+      document.documentElement.lang = language;
+      views.forEach(view => { view.hidden = view.dataset.content !== language; });
+      buttons.forEach(button => { button.setAttribute('aria-pressed', String(button.dataset.switch === language)); });
+      document.getElementById('markdown-link').href = language === 'vi' ? 'README.md' : 'README.en.md';
+      document.getElementById('back-to-top').textContent = language === 'vi' ? 'Lên đầu ↑' : 'Back to top ↑';
+    }
+    buttons.forEach(button => button.addEventListener('click', () => {
+      setLanguage(button.dataset.switch);
+      if (location.hash && document.querySelector(location.hash)?.closest('[data-content]')?.hidden) {
+        history.replaceState(null, '', location.pathname);
+      }
+    }));
+  </script>
+</body>
+</html>
